@@ -21,7 +21,7 @@ connect();
 
 // Populate Users: ---------------------------------
 
-async function createUser (amount) {
+async function createUsers (amount) {
 
     let users = [];
 
@@ -54,7 +54,26 @@ async function createUser (amount) {
     }
 } 
 
-createUser(10);
+async function deleteUsers () {
+
+    try {
+        User.deleteMany({});
+        console.log('Users deleted');
+    } 
+    
+    catch (error) {
+        console.log(error.message);
+    }
+}
+
+createUsers(5);
+
+
+//-------------------------------------------------------
+
+
+
+
 
 
 

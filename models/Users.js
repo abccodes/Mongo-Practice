@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const createdAtSchema = require('./CreatedAts');
 
 const userSchema = new mongoose.Schema({
     name: String,
@@ -11,7 +10,10 @@ const userSchema = new mongoose.Schema({
         ref: 'Post'
     },
 
-    ...createdAtSchema.obj
+    createdAt: {
+        type: Date,
+        default: () => Date.now()
+    }
 });
 
 

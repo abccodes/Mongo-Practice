@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
-const authorSchema = require('./Authors');
-const createdAtSchema = require('./CreatedAts');
+
 
 const commentSchema = new mongoose.Schema({
 
     content: String,
+
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
     
     likes: {
         type: [mongoose.Schema.Types.ObjectId],
@@ -16,9 +20,11 @@ const commentSchema = new mongoose.Schema({
         ref: 'Comment'
     },
 
-    ...authorSchema.obj,
-    ...createdAtSchema.obj
+    createdAt: {
+        type: Date,
+        default: () => Date.now()
+    }
 });
 
-const Comment = mongoose.model('Comment', commentSchema);
-module.exports = Comment;
+
+module.exports = mongoose.model('Comment', commentSchema);
