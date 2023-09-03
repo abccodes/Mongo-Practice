@@ -1,4 +1,8 @@
 const mongoose = require('mongoose');
+const User = require('./models/Users');
+const { uniqueNamesGenerator, adjectives, colors, animals} = require('unique-names-generator');
+
+//------------------------------------------------
 
 
 async function connect () {
@@ -15,7 +19,42 @@ async function connect () {
 
 connect();
 
-//
+// Populate Users: ---------------------------------
+
+async function createUser (amount) {
+
+    let users = [];
+
+    try {
+
+        for (let i = 0; i < amount; i++) {
+
+            const name = uniqueNamesGenerator({ 
+                dictionaries: [adjectives, colors, animals], 
+                length: 2, 
+                separator: '-' 
+            });
+            
+            const age = Math.floor(
+                Math.random() * (100 - 18 +1) + 18
+            );
+    
+            users.push(new User({
+                name: name,
+                email: name + '@example.com',
+                age: age
+            }));
+        }
+
+        await User.insertMany(users);
+        console.log('Users created');
+
+    }  catch (error) {
+        console.log(error.message);
+    }
+} 
+
+createUser(10);
 
 
 
