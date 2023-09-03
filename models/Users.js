@@ -1,13 +1,11 @@
 const mongoose = require('mongoose');
-const postSchema = require('./Post');
-const createdAtSchema = require('./CreatedAt');
+const createdAtSchema = require('./CreatedAts');
 
 const userSchema = new mongoose.Schema({
     name: String,
     email: String,
     age: Number,
     
-
     posts: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'Post'
@@ -16,9 +14,11 @@ const userSchema = new mongoose.Schema({
     ...createdAtSchema.obj
 });
 
-const User = mongoose.model('User', userSchema);
+userSchema.statics.findByName = function (name) {
+    return this.where({ name: new RegExp(name, 'i')});
+}
 
-module.exports = User;
+module.exports = mongoose.model('User', userSchema);
 
 
 

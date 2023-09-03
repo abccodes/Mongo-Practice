@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const likeSchema = require('./Likes');
 const authorSchema = require('./Authors');
 const createdAtSchema = require('./CreatedAts');
 
@@ -23,6 +22,32 @@ const postSchema = new mongoose.Schema({
     ...createdAtSchema.obj
 });
 
-const Post = mongoose.model('Post', postSchema);
+//------------------------------------------------
 
-module.exports = Post;
+postSchema.statics.findByTitle = function (title) { 
+    return this.where({ title: new RegExp(title, 'i')});
+}
+
+postSchema.statics.getLikes = async function (postId, type) {
+
+    const Like = this.model('Like');
+
+    try {
+
+        const likes = await Like.find({
+            'entity._id': postId,
+            'entity.kind': 'Post',
+            'type': type == true ? 'Like' : 'Dislike'
+        });
+
+        return likes;
+
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+}
+
+
+
+module.exports = mongoose.model('Post', postSchema)

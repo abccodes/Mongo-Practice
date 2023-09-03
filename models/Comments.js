@@ -18,8 +18,7 @@ const commentSchema = new mongoose.Schema({
 
     ...authorSchema.obj,
     ...createdAtSchema.obj
-})
+});
 
 const Comment = mongoose.model('Comment', commentSchema);
-
 module.exports = Comment;

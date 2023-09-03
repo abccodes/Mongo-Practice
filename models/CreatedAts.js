@@ -9,5 +9,4 @@ const createdAtSchema = new mongoose.Schema({
 });
 
 const CreatedAt = mongoose.model('CreatedAt', createdAtSchema);
-
 module.exports = CreatedAt;
